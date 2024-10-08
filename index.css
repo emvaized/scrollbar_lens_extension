@@ -1,0 +1,70 @@
+/* Trigger zone */
+.lens-scrollbar-trigger {
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 999999998;
+    height: 100%;
+    width: var(--lens-scrollbar-collapsed-width) !important;
+}
+
+/* Scrollbar (snapshot strip) */
+.lens-scrollbar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 999999999;
+    border-left: 1px solid rgba(211, 211, 211, 0.5);
+    object-fit: contain !important;
+    margin: 0px !important;
+    box-shadow: 1px 3px 3px rgba(0,0,0,0.2) !important;
+    transition: width 200ms ease;
+    height: 100%;
+    object-fit: cover !important;
+    object-position: 0% 50%;
+}
+
+.lens-scrollbar:hover {
+    /* width: var(--lens-scrollbar-width) !important; */
+    width: unset !important;
+}
+
+.lens-scrollbar img {
+    object-fit: contain !important;
+    object-fit: cover !important;
+    height: 100%;
+    object-position: 0% 50%; 
+}
+
+.shifted-snapshot {
+    object-position: 25% 50% !important;
+}
+
+/* Lens overlay */
+.lens-overlay {
+    pointer-events: none;
+    z-index: 9999999999;
+    position: absolute;
+    top: 0;
+    width: 100% !important;
+    border: 1px solid gray;
+    background-color: rgba(173, 216, 230, 0.3);
+    background-color: rgba(123, 123, 123, 0.3);
+    border-radius: 1px;
+}
+
+/* Auto-hide lens */
+.lens-scrollbar {
+    transform: translate(100%, 0) !important;
+    opacity: 0;
+    visibility: collapse;
+
+    transition: transform 200ms ease, opacity 200ms ease, visibility 200ms ease !important;
+}
+
+/* .lens-scrollbar:hover { */
+.revealed-lens-scrollbar {
+    transform: translate(0, 0) !important;
+    opacity: 1 !important;
+    visibility: visible;
+}
