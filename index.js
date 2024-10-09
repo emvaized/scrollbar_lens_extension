@@ -9,7 +9,7 @@ document.documentElement.style.setProperty('--lens-scrollbar-width', `${configs.
 document.documentElement.style.setProperty('--lens-scrollbar-collapsed-width', `${configs.triggerWidth}px`);
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (configs.enabled && document.body.scrollHeight > window.innerHeight) {
+    if (configs.enabled && document.body.scrollHeight / window.innerHeight > 2) {
         addTriggerZone();
         addScrollbar();
         addLens();
