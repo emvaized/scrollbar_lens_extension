@@ -2,7 +2,7 @@ let scrollbar, screenshotView, lens, triggerZone, isDragging = false;
 const configs = {
     'enabled': true,
     'width': 180,
-    'triggerWidth': 15,
+    'triggerWidth': 10,
 }
 
 document.documentElement.style.setProperty('--lens-scrollbar-width', `${configs.width}px`);
