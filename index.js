@@ -1,4 +1,6 @@
-let scrollbar, screenshotView, lens, triggerZone, isDragging = false;
+let isShown, scrollbar, screenshotView, lens, triggerZone, isDragging = false, magnifier;
+const zoom = 2.5;
+
 const configs = {
     'enabled': true,
     'width': 180,
@@ -13,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         addTriggerZone();
         addScrollbar();
         addLens();
+        addMagnifier();
         setMouseListeners();
     }
 });
@@ -33,6 +36,11 @@ function capturePage() {
             screenshotView.src = data;
             lens.style.height = `${window.innerHeight * (window.innerHeight / document.body.scrollHeight)}px`;
         } 
+
+        if (magnifier){
+            magnifier.style.backgroundImage = 'url("' + data + '")';
+
+        }
     });
 }
 
@@ -61,6 +69,17 @@ function addLens() {
     scrollbar.appendChild(lens);
 }
 
+function addMagnifier(){
+    magnifier = document.createElement('div');
+    magnifier.className = 'lens-magnifier';
+    const percentRelativeToParent = 100 * zoom;
+    magnifier.style = 
+    `
+    border:1px solid lightgray;border-radius:4px;position:absolute;height:${percentRelativeToParent}%;width:${percentRelativeToParent}%;top:0;left:-${percentRelativeToParent}%;z-index:98932380293802;margin-left:-10px;background-repeat:no-repeat;background-size:cover;box-shadow:1px 3px 3px rgba(0,0,0,0.2);
+    `;
+    lens.appendChild(magnifier);
+}
+
 function setLensOverlayPosition() {
     /// currentscroll / scrollheight = dy / windowheight
     const scrollbarHeight = scrollbar.clientHeight;
@@ -69,7 +88,7 @@ function setLensOverlayPosition() {
 
 function setMouseListeners() {
     window.addEventListener('scroll', ()=>{
-        setLensOverlayPosition();
+        if (isShown) setLensOverlayPosition();
     }, true);
 }
 
@@ -82,15 +101,15 @@ function setScrollbarClickListener() {
             behavior: "smooth"
         });
 
-        document.addEventListener('mousemove', mouseMoveListener);
     });
 
     document.addEventListener('mouseup', ()=>{
         if (isDragging) {
             isDragging = false;
-            document.removeEventListener('mousemove', mouseMoveListener);
         }
     });
+
+    scrollbar.addEventListener('mousemove', mouseMoveListener);
 
     scrollbar.addEventListener("dragstart", (e)=>{
         e.preventDefault();
@@ -124,17 +143,32 @@ function setScrollbarClickListener() {
     })
 
     function mouseMoveListener(e) {
-        if (isDragging) 
+        console.log('mousemove')
+        if (isDragging) {
             window.scrollTo({
                 top: (Math.round(e.clientY * document.body.scrollHeight) / window.innerHeight) - (window.innerHeight / 2),
                 behavior: "instant"
             });
+        }
+            
+
+        if (magnifier){
+            const dy = (e.clientY * scrollbar.clientHeight) / window.innerHeight;
+            magnifier.style.backgroundPositionY = 
+                //  "0px -" + ((dx * zoom) - h + bw) + "px";
+                //  "-" + (dy * zoom) + "px";
+                 "-" + (dy) + "px";
+
+            // magnifier.style.top = (dy) + "px";
+        }
     }
 
     function revealScrollbar(){
+        isShown = true;
         scrollbar.classList.add('revealed-lens-scrollbar')
     }
     function hideScrollbar(){
+        isShown = false;
         scrollbar.classList.remove('revealed-lens-scrollbar');
     }
 }
