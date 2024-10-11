@@ -1,4 +1,4 @@
-let scrollbar, screenshotView, lens, triggerZone, isDragging = false;
+let scrollbar, screenshotView, lens, triggerZone, isDragging = false, isShown = false;
 const configs = {
     'enabled': true,
     'width': 180,
@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
         addTriggerZone();
         addScrollbar();
         addLens();
-        setMouseListeners();
     }
 });
 
@@ -48,9 +47,8 @@ function addScrollbar() {
     screenshotView = document.createElement('img');
     scrollbar.appendChild(screenshotView);
     document.body.appendChild(scrollbar);
-    setScrollbarClickListener();
+    setMouseListeners();
 }
-
 
 function addLens() {
     lens = document.createElement('div');
@@ -63,22 +61,18 @@ function addLens() {
 
 function setLensOverlayPosition() {
     /// currentscroll / scrollheight = dy / windowheight
-    const scrollbarHeight = scrollbar.clientHeight;
-    lens.style.top = `${(window.scrollY * scrollbarHeight) / document.body.scrollHeight}px`;
+    lens.style.top = `${(window.scrollY * scrollbar.clientHeight) / document.body.scrollHeight}px`;
 }
 
 function setMouseListeners() {
     window.addEventListener('scroll', ()=>{
-        setLensOverlayPosition();
+        if (isShown) setLensOverlayPosition();
     }, true);
-}
-
-function setScrollbarClickListener() {
+    
     scrollbar.addEventListener('mousedown', (e)=>{
         isDragging = true;
-        const scrollbarHeight = scrollbar.clientHeight;
         window.scrollTo({
-            top: (Math.round(e.clientY * document.body.scrollHeight) / scrollbarHeight) - (window.innerHeight / 2),
+            top: (Math.round(e.clientY * document.body.scrollHeight) / scrollbar.clientHeight) - (window.innerHeight / 2),
             behavior: "smooth"
         });
 
@@ -132,9 +126,11 @@ function setScrollbarClickListener() {
     }
 
     function revealScrollbar(){
+        isShown = true;
         scrollbar.classList.add('revealed-lens-scrollbar')
     }
     function hideScrollbar(){
+        isShown = false;
         scrollbar.classList.remove('revealed-lens-scrollbar');
     }
 }
