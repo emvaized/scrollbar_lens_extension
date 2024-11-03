@@ -1,27 +1,28 @@
 /* Trigger zone */
 .lens-scrollbar-trigger {
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 999999998;
-    height: 100%;
+    position: fixed !important;
+    right: 0 !important;
+    top: 0 !important;
+    z-index: 9999999998 !important;
+    height: 100% !important;
     width: var(--lens-scrollbar-collapsed-width) !important;
 }
 
 /* Scrollbar (snapshot strip) */
 .lens-scrollbar {
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 999999999;
-    border-left: 1px solid rgba(211, 211, 211, 0.5);
+    position: fixed !important;
+    right: 0 !important;
+    top: 0 !important;
+    z-index: 9999999999 !important;
+    border-left: 1px solid rgba(211, 211, 211, 0.5) !important;
     object-fit: contain !important;
     margin: 0px !important;
     box-shadow: 1px 3px 3px rgba(0,0,0,0.2) !important;
-    transition: width 200ms ease;
-    height: 100%;
+    transition: width 200ms ease !important;
+    height: 100% !important;
     object-fit: cover !important;
     object-position: 0% 50%;
+    max-width: 30% !important;
 }
 
 .lens-scrollbar:hover {

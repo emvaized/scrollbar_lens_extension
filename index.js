@@ -1,18 +1,21 @@
-let scrollbar, screenshotView, lens, triggerZone, isDragging = false, isShown = false;
+let scrollbar, screenshotView, lens, triggerZone, isDragging = false;
+let hideOnMouseOverTimeout, mouseOverDebounceTimeout;
+
 const configs = {
     'enabled': true,
     'width': 180,
-    'triggerWidth': 10,
+    'triggerWidth': 15,
 }
 
 document.documentElement.style.setProperty('--lens-scrollbar-width', `${configs.width}px`);
 document.documentElement.style.setProperty('--lens-scrollbar-collapsed-width', `${configs.triggerWidth}px`);
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (configs.enabled && document.body.scrollHeight / window.innerHeight > 2) {
+    if (configs.enabled && document.body.scrollHeight > (window.innerHeight * 2)) {
         addTriggerZone();
         addScrollbar();
         addLens();
+        setMouseListeners();
     }
 });
 
@@ -47,7 +50,7 @@ function addScrollbar() {
     screenshotView = document.createElement('img');
     scrollbar.appendChild(screenshotView);
     document.body.appendChild(scrollbar);
-    setMouseListeners();
+    setScrollbarClickListener();
 }
 
 function addLens() {
@@ -61,18 +64,22 @@ function addLens() {
 
 function setLensOverlayPosition() {
     /// currentscroll / scrollheight = dy / windowheight
-    lens.style.top = `${(window.scrollY * scrollbar.clientHeight) / document.body.scrollHeight}px`;
+    const scrollbarHeight = scrollbar.clientHeight;
+    lens.style.top = `${(window.scrollY * scrollbarHeight) / document.body.scrollHeight}px`;
 }
 
 function setMouseListeners() {
     window.addEventListener('scroll', ()=>{
-        if (isShown) setLensOverlayPosition();
+        setLensOverlayPosition();
     }, true);
-    
+}
+
+function setScrollbarClickListener() {
     scrollbar.addEventListener('mousedown', (e)=>{
         isDragging = true;
+        const scrollbarHeight = scrollbar.clientHeight;
         window.scrollTo({
-            top: (Math.round(e.clientY * document.body.scrollHeight) / scrollbar.clientHeight) - (window.innerHeight / 2),
+            top: (Math.round(e.clientY * document.body.scrollHeight) / scrollbarHeight) - (window.innerHeight / 2),
             behavior: "smooth"
         });
 
@@ -89,8 +96,6 @@ function setMouseListeners() {
     scrollbar.addEventListener("dragstart", (e)=>{
         e.preventDefault();
     }, true);
-
-    let hideOnMouseOverTimeout, mouseOverDebounceTimeout;
 
     triggerZone.addEventListener("mouseenter", ()=>{
         clearTimeout(mouseOverDebounceTimeout);
@@ -110,12 +115,8 @@ function setMouseListeners() {
 
     /// Check when cursor leaves browser window to keep lens revealed
     let bodyIsHovered = true;
-    document.body.addEventListener('mouseover', ()=>{
-        bodyIsHovered = true;
-    })
-    document.body.addEventListener('mouseout', ()=>{
-        bodyIsHovered = false;
-    })
+    document.body.addEventListener('mouseover', ()=> bodyIsHovered = true)
+    document.body.addEventListener('mouseout', ()=> bodyIsHovered = false)
 
     function mouseMoveListener(e) {
         if (isDragging) 
@@ -126,11 +127,9 @@ function setMouseListeners() {
     }
 
     function revealScrollbar(){
-        isShown = true;
         scrollbar.classList.add('revealed-lens-scrollbar')
     }
     function hideScrollbar(){
-        isShown = false;
         scrollbar.classList.remove('revealed-lens-scrollbar');
     }
 }
