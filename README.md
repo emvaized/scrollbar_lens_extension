@@ -1,6 +1,6 @@
-# <sub><img src="./src/icon.png" height="45" width="45"></sub> Lens Scrollbar browser extension
+# <sub><img src="./src/icon.png" height="45" width="45"></sub> Scrollbar Lens browser extension
 
-View a minimap of the whole page when you hover the scrollbar, and quckly jump to any part of page on click 
+Views a minimap of the whole page when you hover the scrollbar, allowing to quckly jump to any part of page on click 
 
 ![screenshot](assets/screenshot.png)  
 

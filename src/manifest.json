@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
-    "name": "Lens Scrollbar",
+    "name": "Scrollbar Lens",
+    "description": "Views a minimap of the page when hovering the scrollbar",
     "version": "0.0.1",
     "author": "emvaized",
-    "description": "View the whole page at once and jump to any part of it immediately",
     "background": {
         "scripts": [
             "background.js"
@@ -32,7 +32,7 @@
     },
     "browser_specific_settings": {
         "gecko": {
-          "id": "lens_scrollbar@emvaized.dev"
+          "id": "scrollbar_lens@emvaized.dev"
         }
     }
 }
