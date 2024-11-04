@@ -5,8 +5,8 @@ chrome.runtime.onMessage.addListener(
                 const capturing = browser.tabs.captureVisibleTab(sender.tab.windowId, {
                     'format': 'jpeg', 'quality': 10,
                     'rect': {
-                        'x': 0,
-                        'y': 0,
+                        'x':  0,
+                        'y': request.top ??0,
                         'width': request.width,
                         'height': request.height,
                     }

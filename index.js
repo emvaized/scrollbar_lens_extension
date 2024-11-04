@@ -11,7 +11,7 @@ document.documentElement.style.setProperty('--lens-scrollbar-width', `${configs.
 document.documentElement.style.setProperty('--lens-scrollbar-collapsed-width', `${configs.triggerWidth}px`);
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (configs.enabled && document.body.scrollHeight > (window.innerHeight * 2)) {
+    if (configs.enabled) {
         addTriggerZone();
         addScrollbar();
         addLens();
@@ -20,22 +20,56 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 let captured = false;
+// Define the height of each chunk to capture.
+const CHUNK_HEIGHT = window.innerHeight; 
+
 function capturePage() {
     // if (captured == true) return;
     captured = true;
+    let pageHeight = document.body.scrollHeight;
+    let chunksCount = 0;
+    let currentY = 0;
 
-    chrome.runtime.sendMessage({
-        actionToDo: 'captureTab',
-        // height: document.documentElement.scrollHeight ?? document.body.scrollHeight,
-        height: document.body.scrollHeight,
-        width: window.innerWidth,
-    }, (data) => {
-        if (data == undefined) return;
-        if (screenshotView) {
-            screenshotView.src = data;
-            lens.style.height = `${window.innerHeight * (window.innerHeight / document.body.scrollHeight)}px`;
-        } 
+    // chunksCount = Math.ceil(document.body.scrollHeight / CHUNK_HEIGHT);
+    chunksCount = pageHeight / CHUNK_HEIGHT;
+    document.documentElement.style.setProperty('--scroll-lense-img-chunk-height', `calc(100vh / ${chunksCount})`);
+
+    /// clear previous screenshots
+    const prevImages = scrollbar.querySelectorAll('img')
+    prevImages.forEach(element => {
+        element.remove();
     });
+ 
+    function capturePagePart(){
+        chrome.runtime.sendMessage({
+            actionToDo: 'captureTab',
+            width: window.innerWidth,
+            height: CHUNK_HEIGHT,
+            top: parseInt(currentY)
+        }, (data) => {
+            if (data == undefined) return;
+            if (scrollbar) {
+                // Create an img element for the captured chunk.
+                const img = document.createElement('img');
+                img.className = 'scrollbar-lense-screenshot-chunk';
+                img.src = data;
+    
+                scrollbar.appendChild(img);
+                currentY += CHUNK_HEIGHT;
+    
+                // Continue capturing until we reach the end of the page.
+                if (currentY < pageHeight) {
+                    capturePagePart();
+                } else {
+                    // All chunks captured
+                    currentY = 0;
+                    lens.style.height = `${window.innerHeight * (window.innerHeight / document.body.scrollHeight)}px`;
+                }
+            } 
+        });
+    }
+    capturePagePart();
+    
 }
 
 function addTriggerZone(){
@@ -47,8 +81,8 @@ function addTriggerZone(){
 function addScrollbar() {
     scrollbar = document.createElement('div');
     scrollbar.className = 'lens-scrollbar';
-    screenshotView = document.createElement('img');
-    scrollbar.appendChild(screenshotView);
+    // screenshotView = document.createElement('img');
+    // scrollbar.appendChild(screenshotView);
     document.body.appendChild(scrollbar);
     setScrollbarClickListener();
 }
@@ -93,6 +127,8 @@ function setScrollbarClickListener() {
         }
     });
 
+    scrollbar.addEventListener('selectstart', e => e.preventDefault())
+
     scrollbar.addEventListener("dragstart", (e)=>{
         e.preventDefault();
     }, true);
@@ -100,17 +136,22 @@ function setScrollbarClickListener() {
     triggerZone.addEventListener("mouseenter", ()=>{
         clearTimeout(mouseOverDebounceTimeout);
         mouseOverDebounceTimeout = setTimeout(()=>{
-            capturePage();
-            revealScrollbar();
-        }, 100)
+            if (document.body.scrollHeight > (window.innerHeight * 2)) {
+                capturePage();
+                revealScrollbar();
+            }
+        }, 150)
         clearTimeout(hideOnMouseOverTimeout);
     });
+    // triggerZone.addEventListener("mouseout", ()=>{
+    //     clearTimeout(mouseOverDebounceTimeout);
+    // });
 
     scrollbar.addEventListener("mouseout", ()=>{
         clearTimeout(hideOnMouseOverTimeout);
         hideOnMouseOverTimeout = setTimeout(()=>{
             if (bodyIsHovered == true) hideScrollbar();
-        }, 100)
+        }, 150)
     })
 
     /// Check when cursor leaves browser window to keep lens revealed

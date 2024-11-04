@@ -27,6 +27,9 @@
     "permissions": [
         "<all_urls>"
     ],
+    "icons": {
+        "48": "icon.png"
+    },
     "browser_specific_settings": {
         "gecko": {
           "id": "lens_scrollbar@emvaized.dev"

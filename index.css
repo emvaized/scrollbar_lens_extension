@@ -17,12 +17,18 @@
     border-left: 1px solid rgba(211, 211, 211, 0.5) !important;
     object-fit: contain !important;
     margin: 0px !important;
-    box-shadow: 1px 3px 3px rgba(0,0,0,0.2) !important;
     transition: width 200ms ease !important;
     height: 100% !important;
     object-fit: cover !important;
     object-position: 0% 50%;
-    max-width: 30% !important;
+    max-width: 40% !important;
+    background: white;
+    box-shadow: -4px 0px 12px rgba(0,0,0,0.2) !important;
+
+    /* right: 0 !important;
+    top: 0 !important;
+    height: 100% !important;
+    width: 400px !important; */
 }
 
 .lens-scrollbar:hover {
@@ -30,11 +36,22 @@
     width: unset !important;
 }
 
-.lens-scrollbar img {
+/* .lens-scrollbar img {
     object-fit: contain !important;
     object-fit: cover !important;
     height: 100%;
     object-position: 0% 50%; 
+} */
+.lens-scrollbar > .scrollbar-lense-screenshot-chunk  {
+    all: revert !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    object-fit: contain !important;
+    max-height: var(--scroll-lense-img-chunk-height) !important;
+    display: block !important;
+    pointer-events: none !important;
 }
 
 .shifted-snapshot {
@@ -59,7 +76,6 @@
     transform: translate(100%, 0) !important;
     opacity: 0;
     visibility: collapse;
-
     transition: transform 200ms ease, opacity 200ms ease, visibility 200ms ease !important;
 }
 
@@ -68,4 +84,11 @@
     transform: translate(0, 0) !important;
     opacity: 1 !important;
     visibility: visible;
+}
+
+@media (prefers-color-scheme: dark) {
+    .lens-scrollbar{
+        border-left: 1px solid rgba(111, 111, 111, 0.5) !important;
+        background: grey;
+    }
 }
