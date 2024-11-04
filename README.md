@@ -1,6 +1,10 @@
-# <sub><img src="./src/icon.png" height="45" width="45"></sub> Scrollbar Lens browser extension
+# <sub><img src="./src/icon.png" height="45" width="45"></sub> Scrollbar Lens
 
-Views a minimap of the whole page when you hover the scrollbar, allowing to quckly jump to any part of page on click 
+<!-- [![Firefox users](https://img.shields.io/amo/users/scrollbar-lens?color=%23FF6611&label=users&logo=Firefox)](https://addons.mozilla.org/firefox/addon/scrollbar-lens/) -->
+
+This browser extension shows a minimap of the whole page when you hover the scrollbar, allowing to quckly jump to any part of page on click 
+
+<a href="https://addons.mozilla.org/firefox/addon/scrollbar-lens/"><img src="https://user-images.githubusercontent.com/585534/107280546-7b9b2a00-6a26-11eb-8f9f-f95932f4bfec.png" alt="Get for Firefox"></a>
 
 ![screenshot](assets/screenshot.png)  
 
