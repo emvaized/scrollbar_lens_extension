@@ -3,7 +3,7 @@
     position: fixed !important;
     right: 0 !important;
     top: 0 !important;
-    z-index: 9999999998 !important;
+    z-index: 2147483644 !important;
     height: 100% !important;
     width: var(--lens-scrollbar-collapsed-width) !important;
 }
@@ -13,7 +13,7 @@
     position: fixed !important;
     right: 0 !important;
     top: 0 !important;
-    z-index: 9999999999 !important;
+    z-index: 2147483645 !important;
     border-left: 1px solid rgba(211, 211, 211, 0.5) !important;
     object-fit: contain !important;
     margin: 0px !important;
