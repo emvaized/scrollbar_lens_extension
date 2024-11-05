@@ -136,7 +136,7 @@ function setScrollbarClickListener() {
     triggerZone.addEventListener("mouseenter", ()=>{
         clearTimeout(mouseOverDebounceTimeout);
         mouseOverDebounceTimeout = setTimeout(()=>{
-            if (document.body.scrollHeight > (window.innerHeight * 2)) {
+            if (document.body.scrollHeight > (window.innerHeight * 2.5)) {
                 capturePage();
                 revealScrollbar();
             }
