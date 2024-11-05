@@ -4,11 +4,11 @@ let hideOnMouseOverTimeout, mouseOverDebounceTimeout;
 const configs = {
     'enabled': true,
     'width': 180,
-    'triggerWidth': 15,
+    'triggerZoneWidth': 20,
 }
 
 document.documentElement.style.setProperty('--lens-scrollbar-width', `${configs.width}px`);
-document.documentElement.style.setProperty('--lens-scrollbar-collapsed-width', `${configs.triggerWidth}px`);
+document.documentElement.style.setProperty('--lens-scrollbar-collapsed-width', `${configs.triggerZoneWidth}px`);
 
 document.addEventListener('DOMContentLoaded', function () {
     if (configs.enabled) {
@@ -140,7 +140,7 @@ function setScrollbarClickListener() {
                 capturePage();
                 revealScrollbar();
             }
-        }, 150)
+        }, 60)
         clearTimeout(hideOnMouseOverTimeout);
     });
     // triggerZone.addEventListener("mouseout", ()=>{
