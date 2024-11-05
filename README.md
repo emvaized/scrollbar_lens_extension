@@ -6,6 +6,8 @@ This browser extension shows a minimap of the whole page when you hover the scro
 
 <a href="https://addons.mozilla.org/firefox/addon/scrollbar-lens/"><img src="https://user-images.githubusercontent.com/585534/107280546-7b9b2a00-6a26-11eb-8f9f-f95932f4bfec.png" alt="Get for Firefox"></a>
 
+## Screenshot
+
 ![screenshot](assets/screenshot.png)  
 
 ## Support
