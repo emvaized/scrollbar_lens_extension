@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Scrollbar Lens",
-    "description": "Views a minimap of the page when hovering the scrollbar",
+    "description": "Shows a minimap of the page when hovering over the scrollbar",
     "version": "0.0.1",
     "author": "emvaized",
     "background": {
