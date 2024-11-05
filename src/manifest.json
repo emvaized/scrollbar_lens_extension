@@ -1,7 +1,8 @@
 {
     "manifest_version": 2,
     "name": "Scrollbar Lens",
-    "description": "Shows a minimap of the page when hovering over the scrollbar",
+    "description": "__MSG_extensionDescription__",
+    "default_locale": "en",
     "version": "0.0.1",
     "author": "emvaized",
     "background": {
