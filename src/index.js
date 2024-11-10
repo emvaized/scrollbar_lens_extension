@@ -4,7 +4,7 @@ let hideOnMouseOverTimeout, mouseOverDebounceTimeout;
 const configs = {
     'enabled': true,
     'width': 180,
-    'triggerZoneWidth': 20,
+    'triggerZoneWidth': 18,
 }
 
 document.documentElement.style.setProperty('--lens-scrollbar-width', `${configs.width}px`);
